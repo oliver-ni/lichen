@@ -14,7 +14,7 @@ Lichen is split into two parts: an API backend accessible through HTTP, and and 
 
 The backend will be in charge of all the code crunching with a callable API that takes in two or more code samples and returns the result of the similarity checking. It does all the heavy lifting so the client only has to call the backend and display the results. I have decided to implement the backend in [Elixir](https://elixir-lang.org/). Why, you ask? Well, I like Elixir 👍
 
-The algorithm in use is fingerprinting (subject to change). Each code sample will first be tokenized into a series of tokens, and then that sequence of tokens is hashed somehow (to be determined). Conventionally, you would look at the n-grams and take the highest number of each. This generates a method that can detect partial matches and is resistant to simple changes like reordering or renaming.
+The algorithm in use is called winnowing. Each code sample will first be preprocessed based on the language, removing keywords and turning variable names into generic names, and then that sequence of tokens is hashed somehow by looking at n-grams. This generates a method that can detect partial matches and is resistant to simple changes like reordering or renaming.
 
 The backend will also store intermediate results of the algorithm, such as the sequence of tokens, into a database such as MongoDB to quickly find matches. This will also allow Lichen to build up a large database of fingerprints over time, potentially being able to alert teachers of unknown plagiarism.
 

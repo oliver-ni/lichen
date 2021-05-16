@@ -1,9 +1,9 @@
 @startuml
 
 package Backend <<Rectangle>> {
-    interface Parser
-    class JavaParser
-    class PythonParser
+    interface Preprocessor
+    class JavaPreprocessor
+    class PythonPreprocessor
     class Hasher
     class LichenAPI
 }
@@ -14,12 +14,12 @@ package JavaClient <<Rectangle>> {
     class APIAccessor
 }
 
-Parser : parse(s: str): list[int]
-Hasher : hash(s: list[int]): list[int]
+Preprocessor : preprocess(s: str): str
+Hasher : hash(s: str): list[int]
 
-Parser <|-- JavaParser
-Parser <|-- PythonParser
-LichenAPI *-- Parser 
+Preprocessor <|-- JavaPreprocessor
+Preprocessor <|-- PythonPreprocessor
+LichenAPI *-- Preprocessor 
 LichenAPI *-- Hasher
 
 LichenAPI <.. APIAccessor
