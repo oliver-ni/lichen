@@ -2,7 +2,7 @@
 
 Lichen aims to be an automatic system for determining the similarity of programs. It primarily aims to assist computer science teachers combat plagiarism and cheating by cross-checking code sources from individual students, but may have other applications as well, such as in search engines or autograding code.
 
-Related projects include Stanford's [MOSS](https://moss.stanford.edu/) but I wanted to try making one on my own.
+Related projects include Stanford's [MOSS](http://moss.stanford.edu/) but I wanted to try making one on my own.
 
 
 ## Overall Design
