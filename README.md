@@ -41,7 +41,7 @@ Why linked lists? Well, Elixir employes a functional programming style that make
 
 ## (Somewhat) Object Oriented Design
 
-![Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/oliver-ni/lichen/master/diagram.iuml&cache=no&fmt=svg)
+![Diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/oliver-ni/lichen/master/diagram.iuml)
 
 This is a basic outline of how Lichen will be laid out. Since I'm using Elixir, which is not an object-oriented language, in the backend, this won't correspond perfectly to how the project is actually implemented. It will most likely use behaviors instead of interfaces and structs instead of classes.
 
