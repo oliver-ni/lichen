@@ -1,6 +1,7 @@
 defmodule Lichen.Language.Python do
   use Lichen.Language
 
+  @impl Language
   def config() do
     [
       extension: "py",
