@@ -3,13 +3,13 @@ defmodule Lichen.Language.Python do
 
   @impl Language
   def config() do
-    [
+    %Language.Config{
       extension: "py",
-      comments: [
+      comments: %{
         open: ["'''", ~s(""")],
         close: ["'''", ~s(""")],
         line: ["#"]
-      ],
+      },
       keywords: [
         # Actual Keywords
         "False",
@@ -288,6 +288,6 @@ defmodule Lichen.Language.Python do
         "}",
         "'"
       ]
-    ]
+    }
   end
 end
