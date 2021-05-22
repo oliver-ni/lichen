@@ -34,11 +34,11 @@ defmodule Lichen.Preprocessor do
 
   defp remove_comments(str, %Language.Config{comments: %{open: open, close: close, line: line}}) do
     Enum.zip(
-      Enum.map(open, &Regex.escape/1),
+      Enum.map(open, &Regex.escape(&1)),
       Enum.map(close, &Regex.escape/1)
     )
-    |> Enum.concat(Enum.map(line, &{Regex.escape(&1), "$"}))
     |> Enum.map(fn {open, close} -> ~r/#{open}.+?#{close}/s end)
+    |> Enum.concat(Enum.map(line, &~r/#{Regex.escape(&1)}.+$/m))
     |> Enum.reduce(str, &Regex.replace(&1, &2, ""))
   end
 
