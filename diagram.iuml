@@ -1,29 +1,34 @@
 @startuml
 
 package Backend <<Rectangle>> {
-    interface Preprocessor
-    class JavaPreprocessor
-    class PythonPreprocessor
-    class Hasher
+    class Fingerprinter
+    class Preprocessor
+    class Winnower
     class LichenAPI
+
+    interface Language
+    class Python
+    class Java
 }
 
 package JavaClient <<Rectangle>> {
     class LichenClient
-    class UserInterface
     class APIAccessor
 }
 
-Preprocessor : preprocess(s: str): str
-Hasher : hash(s: str): list[int]
+Preprocessor : preprocess(s: str, language: Language): str
+Winnower : winnow(s: str): list[int]
 
-Preprocessor <|-- JavaPreprocessor
-Preprocessor <|-- PythonPreprocessor
-LichenAPI *-- Preprocessor 
-LichenAPI *-- Hasher
+Language <|-- Java
+Language <|-- Python
+
+Preprocessor *-- Language
+Fingerprinter *-- Preprocessor
+Fingerprinter *-- Winnower
+
+LichenAPI *-- Fingerprinter
 
 LichenAPI <.. APIAccessor
-LichenClient *-- UserInterface
 LichenClient *-- APIAccessor
 
 ' ------------- '
