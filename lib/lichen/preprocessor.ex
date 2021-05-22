@@ -1,5 +1,7 @@
 defmodule Lichen.Preprocessor do
-  @moduledoc false
+  @moduledoc """
+  A module in charge of preprocessing text before passing it to the fingerprinting algorithm.
+  """
 
   alias Lichen.Language
 
@@ -9,8 +11,18 @@ defmodule Lichen.Preprocessor do
   Preprocesses the string by removing comments, splitting on whitespace
   and special characters into a series of tokens, and renaming all
   generic (non-keyword) identifiers.
+
+  ## Examples
+
+      iex> str = "List<Character> myList = List.of('A', 'B', 'C');"
+      ...> Lichen.Preprocessor.preprocess(str, Lichen.Language.Java)
+      "List<Character>i=List.i('i','i','i');"
+
   """
-  def preprocess(str, language: %Language.Config{} = config) do
+  @spec preprocess(String.t(), Lichen.Language.t()) :: String.t()
+  def preprocess(str, language) when is_atom(language) do
+    config = language.config()
+
     str
     |> remove_comments(config)
     |> to_tokens(config)
@@ -20,10 +32,14 @@ defmodule Lichen.Preprocessor do
     |> Enum.join()
   end
 
-  defp remove_comments(str, %Language.Config{comments: comments}) do
-    str
-    |> (&Regex.replace(~r/#{comments.open}.+?#{comments.close}/s, &1, "")).()
-    |> (&Regex.replace(~r/#{comments.line}.+$/m, &1, "")).()
+  defp remove_comments(str, %Language.Config{comments: %{open: open, close: close, line: line}}) do
+    Enum.zip(
+      Enum.map(open, &Regex.escape/1),
+      Enum.map(close, &Regex.escape/1)
+    )
+    |> Enum.concat(Enum.map(line, &{Regex.escape(&1), "$"}))
+    |> Enum.map(fn {open, close} -> ~r/#{open}.+?#{close}/s end)
+    |> Enum.reduce(str, &Regex.replace(&1, &2, ""))
   end
 
   defp to_tokens(str, config, acc \\ "")

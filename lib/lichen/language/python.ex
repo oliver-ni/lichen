@@ -1,4 +1,8 @@
 defmodule Lichen.Language.Python do
+  @moduledoc """
+  Built-in configuration for Python.
+  """
+
   use Lichen.Language
 
   @impl Language

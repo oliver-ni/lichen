@@ -1,4 +1,8 @@
 defmodule Lichen.Language.Java do
+  @moduledoc """
+  Built-in configuration for Java.
+  """
+
   use Lichen.Language
 
   @impl Language
