@@ -67,7 +67,8 @@ defmodule Lichen.Language.Java do
         "super",
         "while",
 
-        # Stdlib Modules"AbstractAction",
+        # Stdlib Modules
+        "AbstractAction",
         "AbstractAnnotationValueVisitor6",
         "AbstractAnnotationValueVisitor7",
         "AbstractAnnotationValueVisitor8",
