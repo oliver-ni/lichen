@@ -1,4 +1,4 @@
-defmodule Lichen.Preprocessor do
+defmodule Lichen.Preprocessing do
   @moduledoc """
   A module in charge of preprocessing text before passing it to the fingerprinting algorithm.
   """
