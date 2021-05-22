@@ -11,11 +11,13 @@ defmodule Lichen.Winnowing do
   of the source using SHA-1, and taking the first 16 bits. Then, the winnowing algorithm
   is used to select which fingerprints to keep.
   """
+  @spec winnow(String.t()) :: [integer()]
   def winnow(str) do
     str
     |> ngrams(@k)
     |> Enum.map(&hash/1)
     |> select_hashes(@t - @k + 1)
+    |> Enum.to_list()
   end
 
   defp ngrams(list, size) when is_binary(list) do
