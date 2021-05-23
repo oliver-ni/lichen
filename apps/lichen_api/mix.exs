@@ -27,7 +27,8 @@ defmodule Lichen.API.MixProject do
   defp deps do
     [
       {:plug_cowboy, "~> 2.0"},
-      {:jason, "~> 1.2"}
+      {:jason, "~> 1.2"},
+      {:lichen, in_umbrella: true}
     ]
   end
 end

@@ -6,6 +6,7 @@ defmodule Lichen.API.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      Lichen.API.LanguageRegistry,
       {
         Plug.Cowboy,
         scheme: :http, plug: Lichen.API.Endpoint, options: [port: 4000]
