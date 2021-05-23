@@ -6,6 +6,10 @@ defmodule Lichen.API.Endpoint do
   plug Plug.Parsers, parsers: [:json], json_decoder: Jason
   plug :dispatch
 
+  get "/" do
+    send_resp(conn, 200, "Welcome!")
+  end
+
   post "/" do
     {status_code, status, value} =
       case conn.body_params do
