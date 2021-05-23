@@ -10,7 +10,7 @@ defmodule Lichen.API.Endpoint do
     send_resp(conn, 200, "Welcome!")
   end
 
-  post "/" do
+  post "/compare" do
     {status_code, status, value} =
       case conn.body_params do
         %{"files" => files, "lang" => lang} ->
