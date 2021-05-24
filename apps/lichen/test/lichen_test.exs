@@ -1,4 +1,4 @@
 defmodule LichenTest do
   use ExUnit.Case
-  doctest Lichen.Preprocessor
+  doctest Lichen.Preprocessing
 end
