@@ -4,6 +4,8 @@ defmodule Lichen.Language.Config do
   each language differently.
   """
 
+  use TypedStruct
+
   @typedoc """
   Configuration for how comments work in the language.
   """
@@ -13,16 +15,11 @@ defmodule Lichen.Language.Config do
           line: [String.t()]
         }
 
-  @typedoc """
-  Configuration for a language. Used by the preprocessor.
-  """
-  @type t() :: %__MODULE__{
-          extension: String.t(),
-          comments: comments_config(),
-          keywords: [String.t()],
-          special_chars: [String.t()]
-        }
-
-  @enforce_keys [:extension, :comments, :keywords, :special_chars]
-  defstruct [:extension, :comments, :keywords, :special_chars]
+  typedstruct do
+    @typedoc "Configuration for a language. Used by the preprocessor."
+    field :extension, String.t(), enforce: true
+    field :comments, comments_config(), enforce: true
+    field :keywords, [String.t()], enforce: true
+    field :special_chars, [String.t()], enforce: true
+  end
 end
