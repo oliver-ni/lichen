@@ -12,9 +12,10 @@ defmodule Lichen do
   """
   @spec fingerprint(String.t(), Lichen.Language.t()) :: [integer()]
   def fingerprint(str, language) when is_atom(language) do
-    str
-    |> Lichen.Preprocessing.preprocess(language)
-    |> Lichen.Winnowing.winnow()
+    case language do
+      nil -> Lichen.Winnowing.winnow(str)
+      _ -> str |> Lichen.Preprocessing.preprocess(language) |> Lichen.Winnowing.winnow()
+    end
   end
 
   @doc """
@@ -22,28 +23,53 @@ defmodule Lichen do
   whose fingerprints are excluded from the comparison. Returns results in a list of tuples in
   the format `{num_matched_fingerprints, num_fingerprints}`, one for each file.
   """
-  @spec compare([String.t()], String.t() | nil, Lichen.Language.t()) :: [{integer(), integer()}]
-  def compare(strings, base \\ nil, language) when is_atom(language) do
+  @spec compare([String.t()], Lichen.Language.t(), compare_options()) :: Lichen.Result.t()
+  def compare(strings, language, opts \\ [base: nil]) when is_atom(language) do
     base_fingerprints =
-      case base do
-        nil -> []
-        _ -> fingerprint(base, language)
+      case opts do
+        [base: base] when not is_nil(base) -> fingerprint(base, language)
+        _ -> []
       end
+      |> Enum.map(&elem(&1, 0))
       |> MapSet.new()
 
-    fingerprints =
-      Enum.map(strings, fn str ->
-        str
-        |> fingerprint(language)
+    fingerprints = Enum.map(strings, &fingerprint(&1, language))
+
+    common_fingerprints =
+      fingerprints
+      |> Enum.map(fn file ->
+        file
+        |> Enum.map(&elem(&1, 0))
         |> MapSet.new()
-        |> MapSet.difference(base_fingerprints)
+      end)
+      |> Enum.reduce(&MapSet.intersection/2)
+      |> MapSet.difference(base_fingerprints)
+
+    matched_fingerprints =
+      Enum.map(fingerprints, fn file ->
+        file
+        |> Enum.filter(fn {x, _} -> x in common_fingerprints end)
+        |> Enum.sort()
+        |> Enum.dedup_by(&elem(&1, 0))
+        |> Enum.map(&elem(&1, 1))
       end)
 
-    num_common =
+    score =
       fingerprints
-      |> Enum.reduce(&MapSet.intersection/2)
-      |> MapSet.size()
+      |> Enum.map(fn x -> MapSet.size(common_fingerprints) / Enum.count(x) end)
+      |> Enum.max()
 
-    Enum.map(fingerprints, &{num_common, MapSet.size(&1)})
+    %Lichen.Result{
+      score: score,
+      matches: Enum.zip(matched_fingerprints)
+    }
+
+    # num_common =
+    #   common_fingerprints
+    #   |> MapSet.size()
+
+    # Enum.map(fingerprints, &{num_common, MapSet.size(&1)})
   end
+
+  @type compare_options :: [base: String.t() | nil]
 end
