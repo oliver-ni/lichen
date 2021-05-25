@@ -63,12 +63,6 @@ defmodule Lichen do
       score: score,
       matches: Enum.zip(matched_fingerprints)
     }
-
-    # num_common =
-    #   common_fingerprints
-    #   |> MapSet.size()
-
-    # Enum.map(fingerprints, &{num_common, MapSet.size(&1)})
   end
 
   @type compare_options :: [base: String.t() | nil]
