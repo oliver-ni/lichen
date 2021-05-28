@@ -1,19 +1,38 @@
 @startuml
 
 package Backend <<Rectangle>> {
-    class Fingerprinter
-    class Preprocessor
-    class Winnower
-    class LichenAPI
+    package Lichen {
+        class Fingerprinter
+        class Preprocessor
+        class Winnower
+        class Lichen
 
-    interface Language
-    class Python
-    class Java
+        interface Language
+        class Python
+        class Java
+    }
+
+    package LichenAPI {
+        class LichenAPI
+        class Endpoint
+        class LanguageRegistry
+    }
 }
 
 package JavaClient <<Rectangle>> {
-    class LichenClient
-    class APIAccessor
+    package ni.oliver.lichen.apiclient {
+        class LichenClient
+        class Request
+        class Response
+        class Result
+    }
+
+    package ni.oliver.lichen {
+        class App
+        class MainController
+        class FilePane
+        class Utils
+    }
 }
 
 Preprocessor : preprocess(s: str, language: Language): str
@@ -21,15 +40,20 @@ Winnower : winnow(s: str): list[int]
 
 Language <|-- Java
 Language <|-- Python
-
 Preprocessor *-- Language
 Fingerprinter *-- Preprocessor
 Fingerprinter *-- Winnower
+Lichen *-- Fingerprinter
 
-LichenAPI *-- Fingerprinter
+Lichen <.. LichenAPI
+LichenAPI *-- Endpoint
+LichenAPI *-- LanguageRegistry
 
-LichenAPI <.. APIAccessor
-LichenClient *-- APIAccessor
+Endpoint <.. LichenClient
+App <.. Utils
+App *-- MainController
+MainController *-- LichenClient
+MainController *-- FilePane
 
 ' ------------- '
 ' Style Options '
@@ -43,98 +67,98 @@ hide empty fields
 !define STYLE_FGC #000
 
 skinparam {
-  DPI 300
-  Shadowing false
-  DefaultFontName -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji
-  DefaultMonospacedFontName SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace
-  DefaultFontColor STYLE_FGC
-  ArrowColor STYLE_ACCENT
-  ActivityBorderColor STYLE_ACCENT
-  ActivityDiamondBorderColor STYLE_ACCENT
-  ActorBorderColor STYLE_ACCENT
-  AgentBorderColor STYLE_ACCENT
-  ArtifactBorderColor STYLE_ACCENT
-  BoundaryBorderColor STYLE_ACCENT
-  ClassBorderColor STYLE_ACCENT
-  CloudBorderColor STYLE_ACCENT
-  CollectionsBorderColor STYLE_ACCENT
-  ComponentBorderColor STYLE_ACCENT
-  ControlBorderColor STYLE_ACCENT
-  DatabaseBorderColor STYLE_ACCENT
-  EntityBorderColor STYLE_ACCENT
-  FileBorderColor STYLE_ACCENT
-  FolderBorderColor STYLE_ACCENT
-  FrameBorderColor STYLE_ACCENT
-  InterfaceBorderColor STYLE_ACCENT
-  LegendBorderColor STYLE_ACCENT
-  NodeBorderColor STYLE_ACCENT
-  NoteBorderColor STYLE_ACCENT
-  ObjectBorderColor STYLE_ACCENT
-  PackageBorderColor STYLE_ACCENT
-  ParticipantBorderColor STYLE_ACCENT
-  PartitionBorderColor STYLE_ACCENT
-  QueueBorderColor STYLE_ACCENT
-  RectangleBorderColor STYLE_ACCENT
-  SequenceBoxBorderColor STYLE_ACCENT
-  SequenceDividerBorderColor STYLE_ACCENT
-  SequenceGroupBorderColor STYLE_ACCENT
-  SequenceLifeLineBorderColor STYLE_ACCENT
-  SequenceReferenceBorderColor STYLE_ACCENT
-  StackBorderColor STYLE_ACCENT
-  StateBorderColor STYLE_ACCENT
-  StorageBorderColor STYLE_ACCENT
-  SwimlaneBorderColor STYLE_ACCENT
-  UsecaseBorderColor STYLE_ACCENT
-  ActivityBackgroundColor STYLE_BGC
-  ActivityDiamondBackgroundColor STYLE_BGC
-  ActorBackgroundColor STYLE_BGC
-  AgentBackgroundColor STYLE_BGC
-  ArtifactBackgroundColor STYLE_BGC
-  BackgroundColor STYLE_BGC
-  BoundaryBackgroundColor STYLE_BGC
-  ClassBackgroundColor STYLE_BGC
-  ClassHeaderBackgroundColor STYLE_BGC
-  CloudBackgroundColor STYLE_BGC
-  CollectionsBackgroundColor STYLE_BGC
-  ComponentBackgroundColor STYLE_BGC
-  ControlBackgroundColor STYLE_BGC
-  DatabaseBackgroundColor STYLE_BGC
-  EntityBackgroundColor STYLE_BGC
-  FileBackgroundColor STYLE_BGC
-  FolderBackgroundColor STYLE_BGC
-  FrameBackgroundColor STYLE_BGC
-  IconPackageBackgroundColor STYLE_BGC
-  IconPrivateBackgroundColor STYLE_BGC
-  IconProtectedBackgroundColor STYLE_BGC
-  IconPublicBackgroundColor STYLE_BGC
-  InterfaceBackgroundColor STYLE_BGC
-  LegendBackgroundColor STYLE_BGC
-  NodeBackgroundColor STYLE_BGC
-  NoteBackgroundColor STYLE_BGC
-  ObjectBackgroundColor STYLE_BGC
-  PackageBackgroundColor STYLE_BGC
-  ParticipantBackgroundColor STYLE_BGC
-  PartitionBackgroundColor STYLE_BGC
-  QueueBackgroundColor STYLE_BGC
-  RectangleBackgroundColor STYLE_BGC
-  SequenceBoxBackgroundColor STYLE_BGC
-  SequenceDividerBackgroundColor STYLE_BGC
-  SequenceGroupBackgroundColor STYLE_BGC
-  SequenceGroupBodyBackgroundColor STYLE_BGC
-  SequenceLifeLineBackgroundColor STYLE_BGC
-  SequenceReferenceBackgroundColor STYLE_BGC
-  SequenceReferenceHeaderBackgroundColor STYLE_BGC
-  StackBackgroundColor STYLE_BGC
-  StateBackgroundColor STYLE_BGC
-  StereotypeABackgroundColor STYLE_BGC
-  StereotypeCBackgroundColor STYLE_BGC
-  StereotypeEBackgroundColor STYLE_BGC
-  StereotypeIBackgroundColor STYLE_BGC
-  StereotypeNBackgroundColor STYLE_BGC
-  StorageBackgroundColor STYLE_BGC
-  TitleBackgroundColor STYLE_BGC
-  UsecaseBackgroundColor STYLE_BGC
-  roundcorner 8
+    DPI 300
+    Shadowing false
+    DefaultFontName -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji
+    DefaultMonospacedFontName SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace
+    DefaultFontColor STYLE_FGC
+    ArrowColor STYLE_ACCENT
+    ActivityBorderColor STYLE_ACCENT
+    ActivityDiamondBorderColor STYLE_ACCENT
+    ActorBorderColor STYLE_ACCENT
+    AgentBorderColor STYLE_ACCENT
+    ArtifactBorderColor STYLE_ACCENT
+    BoundaryBorderColor STYLE_ACCENT
+    ClassBorderColor STYLE_ACCENT
+    CloudBorderColor STYLE_ACCENT
+    CollectionsBorderColor STYLE_ACCENT
+    ComponentBorderColor STYLE_ACCENT
+    ControlBorderColor STYLE_ACCENT
+    DatabaseBorderColor STYLE_ACCENT
+    EntityBorderColor STYLE_ACCENT
+    FileBorderColor STYLE_ACCENT
+    FolderBorderColor STYLE_ACCENT
+    FrameBorderColor STYLE_ACCENT
+    InterfaceBorderColor STYLE_ACCENT
+    LegendBorderColor STYLE_ACCENT
+    NodeBorderColor STYLE_ACCENT
+    NoteBorderColor STYLE_ACCENT
+    ObjectBorderColor STYLE_ACCENT
+    PackageBorderColor STYLE_ACCENT
+    ParticipantBorderColor STYLE_ACCENT
+    PartitionBorderColor STYLE_ACCENT
+    QueueBorderColor STYLE_ACCENT
+    RectangleBorderColor STYLE_ACCENT
+    SequenceBoxBorderColor STYLE_ACCENT
+    SequenceDividerBorderColor STYLE_ACCENT
+    SequenceGroupBorderColor STYLE_ACCENT
+    SequenceLifeLineBorderColor STYLE_ACCENT
+    SequenceReferenceBorderColor STYLE_ACCENT
+    StackBorderColor STYLE_ACCENT
+    StateBorderColor STYLE_ACCENT
+    StorageBorderColor STYLE_ACCENT
+    SwimlaneBorderColor STYLE_ACCENT
+    UsecaseBorderColor STYLE_ACCENT
+    ActivityBackgroundColor STYLE_BGC
+    ActivityDiamondBackgroundColor STYLE_BGC
+    ActorBackgroundColor STYLE_BGC
+    AgentBackgroundColor STYLE_BGC
+    ArtifactBackgroundColor STYLE_BGC
+    BackgroundColor STYLE_BGC
+    BoundaryBackgroundColor STYLE_BGC
+    ClassBackgroundColor STYLE_BGC
+    ClassHeaderBackgroundColor STYLE_BGC
+    CloudBackgroundColor STYLE_BGC
+    CollectionsBackgroundColor STYLE_BGC
+    ComponentBackgroundColor STYLE_BGC
+    ControlBackgroundColor STYLE_BGC
+    DatabaseBackgroundColor STYLE_BGC
+    EntityBackgroundColor STYLE_BGC
+    FileBackgroundColor STYLE_BGC
+    FolderBackgroundColor STYLE_BGC
+    FrameBackgroundColor STYLE_BGC
+    IconPackageBackgroundColor STYLE_BGC
+    IconPrivateBackgroundColor STYLE_BGC
+    IconProtectedBackgroundColor STYLE_BGC
+    IconPublicBackgroundColor STYLE_BGC
+    InterfaceBackgroundColor STYLE_BGC
+    LegendBackgroundColor STYLE_BGC
+    NodeBackgroundColor STYLE_BGC
+    NoteBackgroundColor STYLE_BGC
+    ObjectBackgroundColor STYLE_BGC
+    PackageBackgroundColor STYLE_BGC
+    ParticipantBackgroundColor STYLE_BGC
+    PartitionBackgroundColor STYLE_BGC
+    QueueBackgroundColor STYLE_BGC
+    RectangleBackgroundColor STYLE_BGC
+    SequenceBoxBackgroundColor STYLE_BGC
+    SequenceDividerBackgroundColor STYLE_BGC
+    SequenceGroupBackgroundColor STYLE_BGC
+    SequenceGroupBodyBackgroundColor STYLE_BGC
+    SequenceLifeLineBackgroundColor STYLE_BGC
+    SequenceReferenceBackgroundColor STYLE_BGC
+    SequenceReferenceHeaderBackgroundColor STYLE_BGC
+    StackBackgroundColor STYLE_BGC
+    StateBackgroundColor STYLE_BGC
+    StereotypeABackgroundColor STYLE_BGC
+    StereotypeCBackgroundColor STYLE_BGC
+    StereotypeEBackgroundColor STYLE_BGC
+    StereotypeIBackgroundColor STYLE_BGC
+    StereotypeNBackgroundColor STYLE_BGC
+    StorageBackgroundColor STYLE_BGC
+    TitleBackgroundColor STYLE_BGC
+    UsecaseBackgroundColor STYLE_BGC
+    roundcorner 8
 }
 
 @enduml
