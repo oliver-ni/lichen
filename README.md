@@ -28,7 +28,7 @@ The code for this portion will be fairly simple, so I can't come up with the lis
 
 ## Class Diagram
 
-![Diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/oliver-ni/lichen/master/diagram.iuml)
+[![Diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/oliver-ni/lichen/master/diagram.iuml)](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/oliver-ni/lichen/master/diagram.iuml)
 
 This is a basic outline of how Lichen will be laid out. Since I'm using Elixir, which is not an object-oriented language, in the backend, I would be using concepts analogous to the classes and interfaces presented in the diagram, such as modules, structs, and behaviors.
 
