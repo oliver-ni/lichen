@@ -1,3 +1,7 @@
+require Protocol
+
+Protocol.derive(Jason.Encoder, Lichen.Result)
+
 defmodule Lichen.API.Endpoint do
   use Plug.Router
 
