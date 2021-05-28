@@ -34,6 +34,7 @@ defmodule Lichen do
       |> MapSet.new()
 
     fingerprints = Enum.map(strings, &fingerprint(&1, language))
+    lengths = Enum.map(strings, &String.length/1)
 
     common_fingerprints =
       fingerprints
@@ -46,12 +47,16 @@ defmodule Lichen do
       |> MapSet.difference(base_fingerprints)
 
     matched_fingerprints =
-      Enum.map(fingerprints, fn file ->
+      fingerprints
+      |> Enum.zip(lengths)
+      |> Enum.map(fn {file, length} ->
         file
-        |> Enum.filter(fn {x, _} -> x in common_fingerprints end)
+        |> Enum.chunk_every(2, 1, [{nil, length}])
+        |> IO.inspect()
+        |> Enum.filter(fn [{x, _}, _] -> x in common_fingerprints end)
         |> Enum.sort()
-        |> Enum.dedup_by(&elem(&1, 0))
-        |> Enum.map(&elem(&1, 1))
+        |> Enum.dedup_by(fn [{x, _}, _] -> x end)
+        |> Enum.map(fn [{_, a}, {_, b}] -> {a, b} end)
       end)
 
     score =

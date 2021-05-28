@@ -5,6 +5,10 @@ Protocol.derive(Jason.Encoder, Lichen.Result)
 defmodule Lichen.API.Endpoint do
   use Plug.Router
 
+  if Mix.env() == :dev do
+    use Plug.Debugger, otp_app: :my_app
+  end
+
   plug Plug.Logger
   plug :match
   plug Plug.Parsers, parsers: [:json], json_decoder: Jason
