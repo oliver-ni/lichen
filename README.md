@@ -12,7 +12,7 @@ Lichen is split into two parts: an API backend accessible through HTTP, and and 
 
 ## Elixir Backend
 
-The backend will be in charge of all the code crunching with a callable API that takes in two or more code samples and returns the result of the similarity checking. It does all the heavy lifting so the client only has to call the backend and display the results. I have decided to implement the backend in [Elixir](https://elixir-lang.org/). Why, you ask? Well, I like Elixir 👍
+The backend will be in charge of all the code crunching with a callable API that takes in two or more code samples and returns the result of the similarity checking. It does all the heavy lifting so the client only has to call the backend and display the results. I have decided to implement the backend in [Elixir](https://elixir-lang.org/). Why, you ask? Well, I like Elixir :)
 
 The algorithm in use is document fingerprinting. Each code sample will first be preprocessed based on the language, removing keywords and turning variable names into generic names, and then that preprocessed code is split into n-grams, and each n-gram is hashed into a series of fingerprints. Then, an algorithm called Winnowing, described in the wonderful research paper [Winnowing: Local Algorithms for Document Fingerprinting](https://theory.stanford.edu/~aiken/publications/papers/sigmod03.pdf) (which this project is highly based on) is used to select some of them to keep and match on. This generates a method that can detect partial matches and is resistant to simple changes like reordering or renaming, while also staying efficient.
 
