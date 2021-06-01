@@ -42,7 +42,7 @@ defmodule Lichen.Preprocessing do
         {";", 47}
       ]
   """
-  @spec preprocess(String.t(), Lichen.Language.t()) :: Enumerable.t({String.t(), integer()})
+  @spec preprocess(String.t(), Lichen.Language.t()) :: [{String.t(), integer()}]
   def preprocess(str, language) when is_atom(language) do
     config = language.config()
 

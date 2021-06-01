@@ -14,7 +14,7 @@ defmodule Lichen.Winnowing do
   Input can be provided either as just a string, or an `Enumerable` of tuples in the
   form `{token, start_index}` for backtracking matches.
   """
-  @spec winnow(String.t() | Enumerable.t({String.t(), integer()})) :: [integer()]
+  @spec winnow(String.t() | [{String.t(), integer()}]) :: [integer()]
   def winnow(input)
 
   def winnow(input) when is_binary(input) do

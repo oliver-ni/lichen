@@ -24,7 +24,7 @@ defmodule Lichen.API.Endpoint do
         %{"files" => files, "lang" => lang} ->
           base = Map.get(conn.body_params, "base")
           lang = Lichen.API.LanguageRegistry.get(lang)
-          {200, "success", Lichen.compare(files, base, lang)}
+          {200, "success", Lichen.compare(files, lang, base: base)}
 
         _ ->
           {400, "error", ~s'You must specify the "files" and "lang" keys.'}

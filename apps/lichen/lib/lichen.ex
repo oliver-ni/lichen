@@ -52,7 +52,6 @@ defmodule Lichen do
       |> Enum.map(fn {file, length} ->
         file
         |> Enum.chunk_every(2, 1, [{nil, length}])
-        |> IO.inspect()
         |> Enum.filter(fn [{x, _}, _] -> x in common_fingerprints end)
         |> Enum.sort()
         |> Enum.dedup_by(fn [{x, _}, _] -> x end)
