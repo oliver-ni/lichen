@@ -60,7 +60,13 @@ defmodule Lichen do
 
     score =
       fingerprints
-      |> Enum.map(fn x -> MapSet.size(common_fingerprints) / Enum.count(x) end)
+      |> Enum.map(fn file ->
+        file
+        |> MapSet.new()
+        |> MapSet.difference(base_fingerprints)
+        |> MapSet.size()
+      end)
+      |> Enum.map(fn x -> MapSet.size(common_fingerprints) / x end)
       |> Enum.max()
 
     %Lichen.Result{
