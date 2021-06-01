@@ -3,7 +3,6 @@ defmodule LichenServer.MixProject do
 
   def project do
     [
-      app: :lichen_server,
       apps_path: "apps",
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
